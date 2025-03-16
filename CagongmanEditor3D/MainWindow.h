@@ -3,6 +3,8 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
+class GLWidget;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -12,5 +14,6 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindowClass ui;
+    Ui::MainWindowClass* ui;
+    GLWidget* glWidget;
 };
