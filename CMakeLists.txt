@@ -1,7 +1,16 @@
 cmake_minimum_required(VERSION 3.19)
 project(CMEditor3D LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS
+    Core
+    Widgets
+    OpenGL
+    OpenGLWidgets
+    3DCore
+    3DExtras
+    3DRender
+    3DInput
+)
 
 qt_standard_project_setup()
 
@@ -11,12 +20,20 @@ qt_add_executable(CMEditor3D
     CMeditor.cpp
     CMeditor.h
     CMeditor.ui
+    glwidget.cpp
+    glwidget.h
 )
 
 target_link_libraries(CMEditor3D
     PRIVATE
         Qt::Core
         Qt::Widgets
+        Qt::OpenGL
+        Qt::OpenGLWidgets
+        Qt::3DCore
+        Qt::3DExtras
+        Qt::3DRender
+        Qt::3DInput
 )
 
 include(GNUInstallDirs)
