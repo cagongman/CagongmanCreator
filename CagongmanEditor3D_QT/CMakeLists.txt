@@ -20,8 +20,8 @@ qt_add_executable(CMEditor3D
     CMeditor.cpp
     CMeditor.h
     CMeditor.ui
-    glwidget.cpp
-    glwidget.h
+    GLWidget.cpp
+    GLWidget.h
 )
 
 target_link_libraries(CMEditor3D

@@ -1,4 +1,4 @@
-#include "glwidget.h"
+#include "GLWidget.h"
 
 GLWidget::GLWidget(QWidget *parent) : QWidget(parent) {
     auto *view = new Qt3DExtras::Qt3DWindow();
