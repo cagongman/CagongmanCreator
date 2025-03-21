@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QToolBar>
 #include "ui_CM_EditorMain.h"
 
 class CM_EditorMain : public QMainWindow
