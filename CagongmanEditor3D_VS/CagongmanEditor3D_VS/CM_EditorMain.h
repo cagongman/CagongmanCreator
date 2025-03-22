@@ -2,6 +2,10 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QToolBar>
+#include <QAction>
+#include <QFileDialog>
+#include <QMessageBox>
+#include "GLViewer.h"
 #include "ui_CM_EditorMain.h"
 
 class CM_EditorMain : public QMainWindow
@@ -13,5 +17,10 @@ public:
     ~CM_EditorMain();
 
 private:
-    Ui::CM_EditorMainClass ui;
+    Ui::CM_EditorMainClass *ui;
+    GLViewer* viewer;
+
+private slots:
+    void OpenFile();
+    void ShowInfo();
 };

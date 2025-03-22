@@ -4,7 +4,7 @@
 #include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QtGui/QOpenGLFunctions>
 
-class GLwidget  : public QOpenGLWidget, protected QOpenGLFunctions
+class GLViewer  : public QOpenGLWidget, protected QOpenGLFunctions
 {
 	Q_OBJECT
 
@@ -13,6 +13,6 @@ protected:
 	void paintGL() override;
 
 public:
-	explicit GLwidget(QWidget *parent);
-	~GLwidget();
+	explicit GLViewer(QWidget *parent);
+	~GLViewer();
 };
