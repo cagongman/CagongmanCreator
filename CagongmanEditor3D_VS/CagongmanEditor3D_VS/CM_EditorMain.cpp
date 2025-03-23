@@ -27,7 +27,10 @@ CM_EditorMain::CM_EditorMain(QWidget *parent)
 void CM_EditorMain::OpenFile() {
     QString fileName = QFileDialog::getOpenFileName(this, "Open 3D Model", "", "OBJ Files (*.obj);;All Files (*)");
     if (!fileName.isEmpty()) {
-        QMessageBox::information(this, "File Opened", "Loaded: " + fileName);
+        // QMessageBox::information(this, "File Opened", "Loaded: " + fileName);
+        if (!viewer->LoadMesh(fileName)) {
+            QMessageBox::warning(this, "Error", "Failed to load the file.");
+        }
     }
 }
 
