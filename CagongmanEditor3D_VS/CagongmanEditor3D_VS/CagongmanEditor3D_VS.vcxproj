@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>QT6</QtInstall>
-    <QtModules>core;gui;widgets;3dcore;3danimation;3dextras;3dinput;3dlogic;3drender;opengl</QtModules>
+    <QtModules>core;gui;widgets;3dcore;3danimation;3dextras;3dinput;3dlogic;3drender;opengl;openglwidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -96,11 +96,11 @@
     <QtUic Include="CM_EditorMain.ui" />
     <QtMoc Include="CM_EditorMain.h" />
     <ClCompile Include="CM_EditorMain.cpp" />
-    <ClCompile Include="GLwidget.cpp" />
+    <ClCompile Include="GLViewer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="GLwidget.h" />
+    <QtMoc Include="GLViewer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

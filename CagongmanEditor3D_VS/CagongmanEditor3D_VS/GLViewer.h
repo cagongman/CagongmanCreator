@@ -7,6 +7,8 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLShader>
+#include <QWheelEvent>
+#include <QMatrix4x4>
 
 class GLViewer  : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -15,11 +17,14 @@ class GLViewer  : public QOpenGLWidget, protected QOpenGLFunctions
 protected:
 	void initializeGL() override;
 	void paintGL() override;
+	void wheelEvent(QWheelEvent* event) override;
 
 	std::vector<float> m_vertices;
 	QOpenGLVertexArrayObject m_vao;
 	QOpenGLBuffer m_vbo;
 	QOpenGLShaderProgram m_shader;
+
+	float m_zoom = 1.0f;
 
 public:
 	explicit GLViewer(QWidget *parent);

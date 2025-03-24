@@ -12,8 +12,18 @@ void GLViewer::initializeGL() {
     initializeOpenGLFunctions();
     glEnable(GL_DEPTH_TEST);
 
+    bool ok =
+        m_shader.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/Shaders/shader.vert") &&
+        m_shader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/Shaders/shader.frag") &&
+        m_shader.link();
+
+    if (!ok) {
+        qDebug() << "Shader compile/link failed:";
+        qDebug() << m_shader.log();
+    }
+
     // 嘉捞歹 积己
-    m_shader.addShaderFromSourceCode(QOpenGLShader::Vertex,
+   /* m_shader.addShaderFromSourceCode(QOpenGLShader::Vertex,
         "#version 330 core\n"
         "layout(location = 0) in vec3 position;\n"
         "void main() {\n"
@@ -27,7 +37,7 @@ void GLViewer::initializeGL() {
         "   FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
         "}"
     );
-    m_shader.link();
+    m_shader.link();*/
 
     // VAO & VBO 积己
     m_vao.create();
@@ -50,7 +60,20 @@ void GLViewer::paintGL() {
 
     if (m_vertices.empty()) return;
 
+    QMatrix4x4 proj;
+    float aspect = float(width()) / float(height());
+    proj.ortho(-aspect * m_zoom, aspect * m_zoom,   // left, right
+        -m_zoom, m_zoom,                     // bottom, top
+        0.1f, 100.0f);                       // near, far
+
+    QMatrix4x4 view;
+    view.lookAt(QVector3D(0, 0, 3), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
+
+    QMatrix4x4 model;
+    QMatrix4x4 mvp = proj * view * model;
+
     m_shader.bind();
+    m_shader.setUniformValue("mvp", mvp);
     m_vao.bind();
 
     m_vbo.bind();
@@ -91,5 +114,17 @@ bool GLViewer::LoadMesh(const QString &filePath) {
     return true;
 }
 
-GLViewer::~GLViewer()
-{}
+void GLViewer::wheelEvent(QWheelEvent* event) {
+    if (event->angleDelta().y() > 0) {
+        m_zoom *= 1.1f;
+    }
+    else {
+        m_zoom /= 1.1f;
+    }
+    
+    update();
+}
+
+GLViewer::~GLViewer() {
+
+}
