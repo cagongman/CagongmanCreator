@@ -5,7 +5,8 @@
 
 GLViewer::GLViewer(QWidget* parent) : QOpenGLWidget(parent) 
 {
-
+    setFocusPolicy(Qt::StrongFocus);
+    setMouseTracking(true);
 }
 
 void GLViewer::initializeGL() {
@@ -53,6 +54,9 @@ void GLViewer::paintGL() {
     view.lookAt(QVector3D(0, 0, 3), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
 
     QMatrix4x4 model;
+    model.rotate(m_rotationX, 1, 0, 0);
+    model.rotate(m_rotationY, 0, 1, 0);
+
     QMatrix4x4 mvp = proj * view * model;
 
     m_shader.bind();
@@ -106,6 +110,24 @@ void GLViewer::wheelEvent(QWheelEvent* event) {
     }
     
     update();
+}
+
+void GLViewer::mousePressEvent(QMouseEvent* event) {
+    if (event->button() == Qt::LeftButton) {
+        m_lastMousePos = event->pos();
+    }
+}
+
+void GLViewer::mouseMoveEvent(QMouseEvent* event) {
+    if (event->buttons() & Qt::LeftButton) {
+        QPoint delta = event->pos() - m_lastMousePos;
+        m_lastMousePos = event->pos();
+
+        m_rotationX += delta.y();
+        m_rotationY += delta.x();
+
+        update();
+    }
 }
 
 GLViewer::~GLViewer() {
