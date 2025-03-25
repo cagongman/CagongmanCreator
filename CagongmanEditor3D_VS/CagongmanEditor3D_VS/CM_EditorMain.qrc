@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="CM_EditorMain">
+    <qresource prefix="/">
+        <file>Shaders/BasicShader.frag</file>
+        <file>Shaders/BasicShader.vert</file>
     </qresource>
 </RCC>
