@@ -44,20 +44,23 @@ void GLViewer::paintGL() {
 
     if (m_vertices.empty()) return;
 
-    QMatrix4x4 proj;
     float aspect = float(width()) / float(height());
-    proj.ortho(-aspect * m_zoom, aspect * m_zoom,   // left, right
-        -m_zoom, m_zoom,                     // bottom, top
-        0.1f, 100.0f);                       // near, far
+    m_projMat.perspective(45.0f, aspect, 0.1f, 100.0f);
 
-    QMatrix4x4 view;
-    view.lookAt(QVector3D(0, 0, 3), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
+    float radYaw = qDegreesToRadians(m_yaw);
+    float radPitch = qDegreesToRadians(m_pitch);
 
-    QMatrix4x4 model;
-    model.rotate(m_rotationX, 1, 0, 0);
-    model.rotate(m_rotationY, 0, 1, 0);
+    QVector3D target(0, 0, 0);
+    QVector3D eye(
+        m_distance * cos(radPitch) * sin(radYaw),
+        m_distance * sin(radPitch),
+        m_distance * cos(radPitch) * cos(radYaw)
+    );
+    QVector3D up(0, 1, 0);
 
-    QMatrix4x4 mvp = proj * view * model;
+    m_viewMat.lookAt(eye, target, up);
+
+    QMatrix4x4 mvp = m_projMat * m_viewMat * m_modelMat;
 
     m_shader.bind();
     m_shader.setUniformValue("mvp", mvp);
@@ -73,7 +76,7 @@ void GLViewer::paintGL() {
     m_shader.release();
 }
 
-bool GLViewer::LoadMesh(const QString &filePath) {
+bool GLViewer::loadMesh(const QString &filePath) {
     QFile file(filePath);
 
     if (!file.open(QIODevice::ReadOnly)) {
@@ -123,8 +126,10 @@ void GLViewer::mouseMoveEvent(QMouseEvent* event) {
         QPoint delta = event->pos() - m_lastMousePos;
         m_lastMousePos = event->pos();
 
-        m_rotationX += delta.y();
-        m_rotationY += delta.x();
+        m_yaw += delta.x() * 0.5f;
+        m_pitch += delta.y() * 0.5f;
+
+        m_pitch = std::clamp(m_pitch, -89.0f, 89.0f);
 
         update();
     }

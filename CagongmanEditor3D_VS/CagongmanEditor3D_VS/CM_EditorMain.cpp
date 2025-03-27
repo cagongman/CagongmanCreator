@@ -20,21 +20,21 @@ CM_EditorMain::CM_EditorMain(QWidget *parent)
     QAction* openAction = toolBar->addAction("Open");
     QAction* infoAction = toolBar->addAction("Info");
 
-    connect(openAction, &QAction::triggered, this, &CM_EditorMain::OpenFile);
-    connect(infoAction, &QAction::triggered, this, &CM_EditorMain::ShowInfo);
+    connect(openAction, &QAction::triggered, this, &CM_EditorMain::openFile);
+    connect(infoAction, &QAction::triggered, this, &CM_EditorMain::showInfo);
 }
 
-void CM_EditorMain::OpenFile() {
+void CM_EditorMain::openFile() {
     QString fileName = QFileDialog::getOpenFileName(this, "Open 3D Model", "", "OBJ Files (*.obj);;All Files (*)");
     if (!fileName.isEmpty()) {
         // QMessageBox::information(this, "File Opened", "Loaded: " + fileName);
-        if (!viewer->LoadMesh(fileName)) {
+        if (!viewer->loadMesh(fileName)) {
             QMessageBox::warning(this, "Error", "Failed to load the file.");
         }
     }
 }
 
-void CM_EditorMain::ShowInfo() {
+void CM_EditorMain::showInfo() {
     QMessageBox::information(this, "About", "3D Viewer - Created with Qt and OpenGL");
 }
 

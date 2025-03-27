@@ -21,6 +21,6 @@ private:
     GLViewer* viewer;
 
 private slots:
-    void OpenFile();
-    void ShowInfo();
+    void openFile();
+    void showInfo();
 };

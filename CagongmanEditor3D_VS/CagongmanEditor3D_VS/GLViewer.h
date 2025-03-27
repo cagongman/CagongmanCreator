@@ -22,6 +22,10 @@ protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
 
+	QMatrix4x4 m_modelMat;
+	QMatrix4x4 m_viewMat;
+	QMatrix4x4 m_projMat;
+
 	std::vector<float> m_vertices;
 
 	QOpenGLVertexArrayObject m_vao;
@@ -29,13 +33,18 @@ protected:
 	QOpenGLShaderProgram m_shader;
 
 	QPoint m_lastMousePos;
+
+	float m_pitch = 0.0f;
+	float m_yaw = 0.0f;
+	float m_distance = 100.0f;
+
 	float m_zoom = 1.0f;
 	float m_rotationX = 0.0f;
 	float m_rotationY = 0.0f;
 
 public:
 	explicit GLViewer(QWidget *parent);
-	bool LoadMesh(const QString& filePath);
+	bool loadMesh(const QString& filePath);
 
 	~GLViewer();
 };
