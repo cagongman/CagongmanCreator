@@ -10,6 +10,7 @@
 #include <QWheelEvent>
 #include <QMouseEvent>
 #include <QMatrix4x4>
+#include "Object.h"
 
 class GLViewer  : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -21,6 +22,8 @@ protected:
 	void wheelEvent(QWheelEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
+
+	std::vector<Object*> m_objects;
 
 	QMatrix4x4 m_modelMat;
 	QMatrix4x4 m_viewMat;

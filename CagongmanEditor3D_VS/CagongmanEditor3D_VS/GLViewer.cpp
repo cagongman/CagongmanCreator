@@ -64,15 +64,18 @@ void GLViewer::paintGL() {
 
     m_shader.bind();
     m_shader.setUniformValue("mvp", mvp);
-    m_vao.bind();
 
-    m_vbo.bind();
-    m_vbo.allocate(m_vertices.data(), m_vertices.size() * sizeof(float));
+    for (const auto& obj : m_objects) {
+        if (obj->getVertexCount() == 0)
+            continue;
 
-    glDrawArrays(GL_POINTS, 0, m_vertices.size() / 3);
+        m_vbo.bind();
+        m_vbo.allocate(obj->getVertexBuffer(), obj->getVertexCount() * 3 * sizeof(float));
+
+        glDrawArrays(GL_POINTS, 0, obj->getVertexCount());
+    }
 
     m_vbo.release();
-    m_vao.release();
     m_shader.release();
 }
 
