@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Object.cpp" />
     <QtRcc Include="CM_EditorMain.qrc" />
     <QtUic Include="CM_EditorMain.ui" />
     <QtMoc Include="CM_EditorMain.h" />
@@ -101,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GLViewer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
