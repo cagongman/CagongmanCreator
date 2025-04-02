@@ -5,7 +5,7 @@
 #include <QAction>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "GLViewer.h"
+#include "Viewer.h"
 #include "ui_CM_EditorMain.h"
 
 class CM_EditorMain : public QMainWindow
@@ -18,7 +18,7 @@ public:
 
 private:
     Ui::CM_EditorMainClass *ui;
-    GLViewer* viewer;
+    Viewer* viewer;
 
 private slots:
     void openFile();

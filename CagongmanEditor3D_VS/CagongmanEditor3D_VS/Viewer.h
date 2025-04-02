@@ -12,7 +12,7 @@
 #include <QMatrix4x4>
 #include "Object.h"
 
-class GLViewer  : public QOpenGLWidget, protected QOpenGLFunctions
+class Viewer  : public QOpenGLWidget, protected QOpenGLFunctions
 {
 	Q_OBJECT
 
@@ -46,8 +46,8 @@ protected:
 	float m_rotationY = 0.0f;
 
 public:
-	explicit GLViewer(QWidget *parent);
+	explicit Viewer(QWidget *parent);
 	bool loadMesh(const QString& filePath);
 
-	~GLViewer();
+	~Viewer();
 };

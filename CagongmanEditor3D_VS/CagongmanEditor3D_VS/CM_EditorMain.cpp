@@ -13,7 +13,7 @@ CM_EditorMain::CM_EditorMain(QWidget *parent)
     QVBoxLayout* layout = new QVBoxLayout(centralWidget);
     setCentralWidget(centralWidget);
 
-    viewer = new GLViewer(this);
+    viewer = new Viewer(this);
     layout->addWidget(viewer);
 
     QToolBar* toolBar = addToolBar("Toolbar");

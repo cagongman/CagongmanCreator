@@ -8,7 +8,7 @@
 
 class Object {
 public:
-	void setVertices(const std::vector<float>& data);
+	void setVertices(std::vector<float>&& data);
 	const float* getVertexBuffer() const;
 	size_t getVertexCount() const;
 	QVector3D getGeometricCenter() const;

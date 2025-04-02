@@ -1,6 +1,6 @@
 #include "Object.h"
 
-void Object::setVertices(const std::vector<float>& data) {
+void Object::setVertices(std::vector<float>&& data) {
     m_vertices = std::move(data);
 }
 

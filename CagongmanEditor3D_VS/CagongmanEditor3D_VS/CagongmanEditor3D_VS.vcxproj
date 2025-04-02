@@ -97,11 +97,11 @@
     <QtUic Include="CM_EditorMain.ui" />
     <QtMoc Include="CM_EditorMain.h" />
     <ClCompile Include="CM_EditorMain.cpp" />
-    <ClCompile Include="GLViewer.cpp" />
+    <ClCompile Include="Viewer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="GLViewer.h" />
+    <QtMoc Include="Viewer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object.h" />

@@ -1,15 +1,15 @@
-#include "GLViewer.h"
+#include "Viewer.h"
 #include <QFile>
 #include <QTExtStream>
 #include <QDebug>
 
-GLViewer::GLViewer(QWidget* parent) : QOpenGLWidget(parent) 
+Viewer::Viewer(QWidget* parent) : QOpenGLWidget(parent) 
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
 }
 
-void GLViewer::initializeGL() {
+void Viewer::initializeGL() {
     initializeOpenGLFunctions();
     glEnable(GL_DEPTH_TEST);
 
@@ -39,13 +39,17 @@ void GLViewer::initializeGL() {
     m_vbo.release();
 }
 
-void GLViewer::paintGL() {
+void Viewer::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    if (m_vertices.empty()) return;
+    if (m_objects.empty()) return;
 
+    float viewSize = 1.0f;  // 줌 크기 조절용 값
     float aspect = float(width()) / float(height());
-    m_projMat.perspective(45.0f, aspect, 0.1f, 100.0f);
+
+    m_projMat.ortho(-aspect * viewSize, aspect * viewSize,
+        -viewSize, viewSize,
+        0.1f, 100.0f);
 
     float radYaw = qDegreesToRadians(m_yaw);
     float radPitch = qDegreesToRadians(m_pitch);
@@ -79,7 +83,7 @@ void GLViewer::paintGL() {
     m_shader.release();
 }
 
-bool GLViewer::loadMesh(const QString &filePath) {
+bool Viewer::loadMesh(const QString &filePath) {
     QFile file(filePath);
 
     if (!file.open(QIODevice::ReadOnly)) {
@@ -87,7 +91,8 @@ bool GLViewer::loadMesh(const QString &filePath) {
         return false;
     }
 
-    m_vertices.clear();
+    Object* obj = new Object();
+    std::vector<float> vertices;
     QTextStream in(&file);
 
     while (!in.atEnd()) {
@@ -95,19 +100,22 @@ bool GLViewer::loadMesh(const QString &filePath) {
         if (line.startsWith("v ")) {
             QStringList parts = line.split(" ", Qt::SkipEmptyParts);
             if (parts.size() == 4) {
-                m_vertices.push_back(parts[1].toFloat());
-                m_vertices.push_back(parts[2].toFloat());
-                m_vertices.push_back(parts[3].toFloat());
+                vertices.push_back(parts[1].toFloat());
+                vertices.push_back(parts[2].toFloat());
+                vertices.push_back(parts[3].toFloat());
             }
         }
     }
+
+    obj->setVertices(std::move(vertices));
+    m_objects.push_back(obj);
 
     file.close();
     update();
     return true;
 }
 
-void GLViewer::wheelEvent(QWheelEvent* event) {
+void Viewer::wheelEvent(QWheelEvent* event) {
     if (event->angleDelta().y() > 0) {
         m_zoom *= 1.1f;
     }
@@ -118,13 +126,13 @@ void GLViewer::wheelEvent(QWheelEvent* event) {
     update();
 }
 
-void GLViewer::mousePressEvent(QMouseEvent* event) {
+void Viewer::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         m_lastMousePos = event->pos();
     }
 }
 
-void GLViewer::mouseMoveEvent(QMouseEvent* event) {
+void Viewer::mouseMoveEvent(QMouseEvent* event) {
     if (event->buttons() & Qt::LeftButton) {
         QPoint delta = event->pos() - m_lastMousePos;
         m_lastMousePos = event->pos();
@@ -138,6 +146,6 @@ void GLViewer::mouseMoveEvent(QMouseEvent* event) {
     }
 }
 
-GLViewer::~GLViewer() {
+Viewer::~Viewer() {
 
 }
