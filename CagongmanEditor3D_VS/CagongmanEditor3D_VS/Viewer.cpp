@@ -41,7 +41,7 @@ void Viewer::initializeGL() {
 
 void Viewer::paintGL() {
     // Test make feature branch
-
+    // test 2
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
